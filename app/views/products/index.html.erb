@@ -1,0 +1,68 @@
+<% 
+# detail= $client.search("to:digitalocean ", result_type: "recent").take(3).collect do |tweet|
+#   "#{tweet.user.screen_name}: #{tweet.text}"
+# end
+%>
+<table class="table table-bordered">
+<p>
+  Download:
+  <%= link_to "CSV", products_path(format: "csv") %> 
+
+<thead>
+<div class="text-right">
+
+<!-- <button class="btn btn-info" type="submit"> -->
+<%= link_to "Log Out", destroy_user_session_path, method: :delete %>
+  
+<!-- </button>
+ --><!-- <button class="btn btn-info" >
+
+<%= link_to "Log Out", destroy_user_session_path, method: :delete %>
+</button> -->
+</div> 
+
+ <!--  <%= link_to "Log Out", destroy_user_session_path, method: :delete %> -->
+
+<%= form_tag(products_path, :method => "get", id: "search-form") do %>
+<%= text_field_tag :search, params[:search], placeholder: "Search Posts" %>
+
+<button class="btn btn-info" type="submit">Search</button>
+<% end %> 
+</thead> 
+<tbody>
+<%= paginate @tweets %>
+   <% if @tweets.present? %>
+<tr class="warning">
+  <th>Name</th>      
+  <th>Profile</th>
+  <th>Tweet Text</th>
+  <th>Retweet</th>
+  <th>Favourite</th>
+</tr>
+ <% @tweets.each do |tweet| %>
+      
+    <tr>
+      <td class="active">
+          <%= (tweet[:entities][:user_mentions].first[:name] rescue "NA.") %>
+      </td>
+      <td class="danger">
+        <%= image_tag tweet[:user][:profile_image_url]%>
+
+      </td>
+        <td class="success"><%= tweet[:text] %></td>
+        <td class="warning"><%= tweet[:retweet_count] %></td>
+        <td class="info"><%= tweet[:favorite_count] %></td>
+          <!-- <img src= "Smiley face" width="42" height="42"] >  -->       </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td class="danger">Whose Related Tweets Do u want..Simply Search in Search form.....</td>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+
+

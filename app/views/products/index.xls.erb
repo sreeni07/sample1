@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Name</Data></Cell>
+        <Cell><Data ss:Type="String">Profile</Data></Cell>
+        <Cell><Data ss:Type="String">Tweet Text</Data></Cell>
+        <Cell><Data ss:Type="String">Retweet</Data></Cell>
+        <Cell><Data ss:Type="String">Favourite</Data></Cell>
+      </Row>
+    <% @tweets.each do |tweet| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= (tweet[:entities][:user_mentions].first[:name] rescue "NA.") %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= image_tag tweet[:user][:profile_image_url]%></Data></Cell>
+        <Cell><Data ss:Type="String"><%= tweet[:text] %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= tweet[:retweet_count] %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= tweet[:favorite_count] %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>
